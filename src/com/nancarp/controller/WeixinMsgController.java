@@ -6,7 +6,8 @@
 	import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 	import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 	import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
-	import com.nancarp.utils.WeixinUtil;
+import com.nancarp.utils.Constants;
+import com.nancarp.utils.WeixinUtil;
 	
 	public class WeixinMsgController extends MsgControllerAdapter {
 		
@@ -24,10 +25,22 @@
 		 */
 		@Override
 		protected void processInTextMsg(InTextMsg inTextMsg) {
-			// 其它文本消息直接返回原值
-			OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-			outMsg.setContent("\t文本消息已成功接收，内容为： " + inTextMsg.getContent());
-			render(outMsg);
+			// 文本内容
+			String msgContent = inTextMsg.getContent().trim();
+			// 回复主页链接
+			if ("1".equals(msgContent) || "主页".equals(msgContent)){
+				OutTextMsg outMsg = new OutTextMsg(inTextMsg);
+				String url = Constants.host + "/api/index";
+				String urlStr = "<a href=\""+url+"\">点击跳转主页</a>";
+				outMsg.setContent(urlStr);
+				render(outMsg);
+			} else {
+				// 其它文本消息直接返回原值
+				OutTextMsg outMsg = new OutTextMsg(inTextMsg);
+				outMsg.setContent("\t文本消息已成功接收，内容为： " + inTextMsg.getContent());
+				render(outMsg);
+			}
+			
 		}
 		
 		@Override

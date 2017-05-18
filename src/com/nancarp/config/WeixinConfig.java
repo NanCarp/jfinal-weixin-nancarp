@@ -10,6 +10,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.template.Engine;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.nancarp.controller.HelloWorldController;
+import com.nancarp.controller.WeixinApiController;
 import com.nancarp.controller.WeixinMsgController;
 
 public class WeixinConfig extends JFinalConfig{
@@ -32,6 +33,8 @@ public class WeixinConfig extends JFinalConfig{
 		me.add("/hello",HelloWorldController.class);
 		// 接收用户消息和发送消息
 		me.add("/msg", WeixinMsgController.class);
+		// 操作微信接口
+		me.add("/api", WeixinApiController.class,"/api");
 	}
 
 	@Override
