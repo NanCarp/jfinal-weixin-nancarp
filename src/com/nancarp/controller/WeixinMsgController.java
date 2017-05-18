@@ -6,8 +6,18 @@ import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
+import com.nancarp.utils.WeixinUtil;
 
 public class WeixinMsgController extends MsgControllerAdapter {
+	
+	/**
+	 * 如果要支持多公众账号，只需要在此返回各个公众号对应的 ApiConfig 对象即可 可以通过在请求 url 中挂参数来动态从数据库中获取
+	 * ApiConfig 属性值
+	 */
+	@Override
+	public ApiConfig getApiConfig() {
+		return WeixinUtil.getApiConfig();
+	}
 
 	/* 
 	 * 接收文本消息事件
@@ -31,12 +41,5 @@ public class WeixinMsgController extends MsgControllerAdapter {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public ApiConfig getApiConfig() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

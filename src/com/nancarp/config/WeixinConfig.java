@@ -10,7 +10,6 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.template.Engine;
 import com.jfinal.weixin.sdk.api.ApiConfigKit;
 import com.nancarp.controller.HelloWorldController;
-import com.nancarp.controller.WeixinApiController;
 import com.nancarp.controller.WeixinMsgController;
 
 public class WeixinConfig extends JFinalConfig{
@@ -31,10 +30,8 @@ public class WeixinConfig extends JFinalConfig{
 	public void configRoute(Routes me) {
 		// HelloWorld 路由
 		me.add("/hello",HelloWorldController.class);
-		// 
+		// 接收用户消息和发送消息
 		me.add("/msg", WeixinMsgController.class);
-		//
-		me.add("/api", WeixinApiController.class, "/api");
 	}
 
 	@Override
