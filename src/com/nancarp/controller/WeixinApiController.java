@@ -1,6 +1,10 @@
 package com.nancarp.controller;
 
+import com.jfinal.weixin.sdk.api.AccessToken;
+import com.jfinal.weixin.sdk.api.AccessTokenApi;
 import com.jfinal.weixin.sdk.api.ApiConfig;
+import com.jfinal.weixin.sdk.api.ApiResult;
+import com.jfinal.weixin.sdk.api.CallbackIpApi;
 import com.jfinal.weixin.sdk.jfinal.ApiController;
 import com.nancarp.utils.WeixinUtil;
 
@@ -14,9 +18,27 @@ public class WeixinApiController extends ApiController {
 	public ApiConfig getApiConfig() {
 		return WeixinUtil.getApiConfig();
 	}
-	
-	public void index(){
+
+	// 主页
+	public void index() {
 		render("index.html");
 	}
 
+	// 获取 access token 字符串
+	public void getAccessTokenStr() {
+		String accessTokenStr = AccessTokenApi.getAccessTokenStr();
+		renderText(accessTokenStr);
+	}
+
+	// 获取 access token
+	public void getAccessToken() {
+		AccessToken accessToken = AccessTokenApi.getAccessToken();
+		renderText(accessToken.getAccessToken());
+	}
+
+	// 获取微信服务器IP地址
+	public void getCallbackIp() {
+		ApiResult apiResult = CallbackIpApi.getCallbackIp();
+		renderText(apiResult.toString());
+	}
 }
