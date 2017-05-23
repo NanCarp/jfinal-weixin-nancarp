@@ -11,7 +11,9 @@ import com.jfinal.weixin.sdk.api.ApiConfig;
 import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.CallbackIpApi;
 import com.jfinal.weixin.sdk.api.GroupsApi;
+import com.jfinal.weixin.sdk.api.MenuApi;
 import com.jfinal.weixin.sdk.jfinal.ApiController;
+import com.nancarp.utils.Constants;
 import com.nancarp.utils.WeixinUtil;
 
 public class WeixinApiController extends ApiController {
@@ -114,7 +116,7 @@ public class WeixinApiController extends ApiController {
 		renderText(msg);
 	}
 	
-	// 获取用户GroupID
+	// 获取用户 GroupID
 	public void getGroupId(){
 		String openId = "oVOX00_xo-tSjfPE5ySJuUe7OywI";
 		GroupsApi.membersUpdate(openId, 0);
@@ -137,5 +139,53 @@ public class WeixinApiController extends ApiController {
 		String openId = "oVOX00_xo-tSjfPE5ySJuUe7OywI";
 		GroupsApi.membersUpdate(openId, 0);
 		renderText(GroupsApi.getId(openId).toString());
+	}
+	
+	/**
+	 * 创建菜单
+	 */
+	public void createMenu() {
+    	String path = Constants.HOST;
+    	String jsonstr = "{" +
+				"	\"button\": [" +
+				"		{" +
+				"			\"name\": \"一级菜单1\"," +
+				"			\"sub_button\": [" +
+				"				{\"name\": \"二级菜单11\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单12\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单13\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单14\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单15\",\"type\": \"view\",\"url\": \"" + path + "/api\"}]" +
+				"		}," +
+				"		{" +
+                "			\"name\": \"一级菜单2\"," +
+				"			\"sub_button\": [" +
+				"				{\"name\": \"测　　试\",\"type\": \"view\",\"url\": \"" + path + "/api/index\"}," +
+                "				{\"name\": \"click22\",\"type\": \"click\",\"key\": \"22\"}," +
+                "				{\"name\": \"二级菜单23\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+                "				{\"name\": \"百度\",\"type\": \"view\",\"url\": \"http://www.baidu.com\"}," +
+				"				{\"name\": \"二级菜单25\",\"type\": \"view\",\"url\": \"" + path + "/api\"}]" +
+				"		}," +
+				"		{" +
+				"			\"name\": \"一级菜单3\"," +
+				"			\"sub_button\": ["+
+				"				{\"name\": \"二级菜单31\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单32\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单33\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单34\",\"type\": \"view\",\"url\": \"" + path + "/api\"}," +
+				"				{\"name\": \"二级菜单35\",\"type\": \"view\",\"url\": \"" + path + "/api\"}]" +
+				"		}" +
+				"	]" +
+				"}";
+    	ApiResult apiResult = MenuApi.createMenu(jsonstr);
+    	renderText(apiResult.getJson());
+    }
+	
+	/**
+	 * 查询菜单
+	 */
+	public void getMenu() {
+		ApiResult apiResult = MenuApi.getMenu();
+		renderText(apiResult.getJson());
 	}
 }

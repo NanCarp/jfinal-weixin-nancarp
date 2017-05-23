@@ -2,7 +2,8 @@
 	
 	import com.jfinal.weixin.sdk.api.ApiConfig;
 	import com.jfinal.weixin.sdk.jfinal.MsgControllerAdapter;
-	import com.jfinal.weixin.sdk.msg.in.InTextMsg;
+import com.jfinal.weixin.sdk.msg.in.InImageMsg;
+import com.jfinal.weixin.sdk.msg.in.InTextMsg;
 	import com.jfinal.weixin.sdk.msg.in.event.InFollowEvent;
 	import com.jfinal.weixin.sdk.msg.in.event.InMenuEvent;
 	import com.jfinal.weixin.sdk.msg.out.OutTextMsg;
@@ -30,7 +31,7 @@ import com.nancarp.utils.WeixinUtil;
 			// 回复主页链接
 			if ("1".equals(msgContent) || "主页".equals(msgContent)){
 				OutTextMsg outMsg = new OutTextMsg(inTextMsg);
-				String url = Constants.host + "/api/index";
+				String url = Constants.HOST + "/api/index";
 				String urlStr = "<a href=\""+url+"\">点击跳转主页</a>";
 				outMsg.setContent(urlStr);
 				render(outMsg);
@@ -49,10 +50,25 @@ import com.nancarp.utils.WeixinUtil;
 			
 		}
 	
+		// 自定义菜单事件
 		@Override
 		protected void processInMenuEvent(InMenuEvent inMenuEvent) {
-			// TODO Auto-generated method stub
-			
+			OutTextMsg outMsg = new OutTextMsg(inMenuEvent);
+		    outMsg.setContent("processInMenuEvent() 方法测试成功");
+		    render(outMsg);
 		}
 	
+		
+		/**
+		 * 实现父类抽方法，处理图片消息
+		 */
+		protected void processInImageMsg(InImageMsg inImageMsg) {
+//			OutImageMsg outMsg = new OutImageMsg(inImageMsg);
+//			// 将刚发过来的图片再发回去
+//			outMsg.setMediaId(inImageMsg.getMediaId());
+//			render(outMsg);
+			// String picUrl =inImageMsg.getPicUrl();
+			String respContent="你发送了一张图片。";
+			renderOutTextMsg(respContent);
+		}
 	}
