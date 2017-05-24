@@ -12,6 +12,8 @@ import com.jfinal.weixin.sdk.api.ApiResult;
 import com.jfinal.weixin.sdk.api.CallbackIpApi;
 import com.jfinal.weixin.sdk.api.GroupsApi;
 import com.jfinal.weixin.sdk.api.MenuApi;
+import com.jfinal.weixin.sdk.api.QrcodeApi;
+import com.jfinal.weixin.sdk.api.ShorturlApi;
 import com.jfinal.weixin.sdk.jfinal.ApiController;
 import com.nancarp.utils.Constants;
 import com.nancarp.utils.WeixinUtil;
@@ -187,5 +189,36 @@ public class WeixinApiController extends ApiController {
 	public void getMenu() {
 		ApiResult apiResult = MenuApi.getMenu();
 		renderText(apiResult.getJson());
+	}
+	
+	// 生成带参数的二维码
+	// 创建临时二维码
+	public void createTemporary(){
+		ApiResult apiResult = null;
+		// 过期时间
+		int expireSeconds = 604800;
+		// 场景值
+		int sceneId = 111;
+		// 生成临时二维码
+		apiResult = QrcodeApi.createTemporary(expireSeconds, sceneId);
+		// 获取 ticket,拼接 url 
+        JSONObject jsonObjec = JSONObject.parseObject(apiResult.getJson());
+        String ticket = jsonObjec.getString("ticket");
+        String outMessage = "apiResult: " + apiResult.getJson() +"\n"
+        		+ "QrcodeUrl: " + QrcodeApi.getShowQrcodeUrl(ticket);
+        renderText(outMessage);
+	}
+	
+	// 长链接转短链接接口 ShorturlApi
+	public void getShortUrl(){
+		ApiResult apiResult = null;
+		String longUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHT7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyemlhcVFPa0JmUWoxM01GRk5wMW0AAgRw7x9ZAwSAOgkA";
+        apiResult = ShorturlApi.getShortUrl(longUrl);
+        JSONObject jsonObjec = JSONObject.parseObject(apiResult.getJson());
+        String shorUrl = jsonObjec.getString("short_url");
+		String outMessage = "apiResult: " + apiResult.getJson() +"\n"
+				+ "longUrl: " + longUrl + "\n\n"
+        		+ "shorUrl: " + shorUrl;
+        renderText(outMessage);
 	}
 }
